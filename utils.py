@@ -18,10 +18,22 @@ def load_sent(path):
             sents.append(line.split())
     return sents
 
+def load_sent_no_split(path):
+    sents = []
+    with open(path) as f:
+        for line in f:
+            sents.append(line)
+    return sents
+
 def write_sent(sents, path):
     with open(path, 'w') as f:
         for s in sents:
             f.write(' '.join(s) + '\n')
+
+def write_sent_no_split(sents, path):
+    with open(path, 'w') as f:
+        for s in sents:
+            f.write(s)
 
 def write_doc(docs, path):
     with open(path, 'w') as f:

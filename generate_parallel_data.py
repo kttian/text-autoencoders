@@ -13,8 +13,13 @@ def convert(tense_idx):
     tense_sents = load_sent_no_split(tense_data)
     converted_sents = []
     for sent in tense_sents:
+        #print("current:", current)
         changed = change_tense(sent, tenses[1-tense_idx])
+        #print("changed before:", changed)
+        changed = changed[:-3] + " " + changed[-3:]
         converted_sents.append(changed)
+        #print("changed after:", changed)
+        #print("chars:", changed[-1], "|", changed[-2], "|", changed[-3])
     return tense_sents, converted_sents
 
 def main(args):

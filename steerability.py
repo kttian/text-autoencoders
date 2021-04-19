@@ -6,7 +6,7 @@ import numpy as np
 from utils import *
 from model import *
 from vocab import Vocab
-from batchify import get_batches
+from batchify import get_batches2, get_batches, get_batches3
 
 
 checkpoint_dir = "checkpoints/yelp/daae/"
@@ -37,33 +37,63 @@ present_file = parallel_data_dir + "present.txt"
 past_file = parallel_data_dir + "past.txt"
 present_data = load_sent(present_file)
 past_data = load_sent(past_file)
-present_batches, _ = get_batches(present_data, vocab, batch_size, device)
-past_batches, _ = get_batches(past_data, vocab, batch_size, device)
-N = len(present_batches)
 
 model.eval()
 
 # hyper parameters 
 alpha = 1
 dim_emb = 128 
-batch_size = 1
-w = torch.rand(dim_emb)
+batch_size = 32 # 256
+#breakpoint()
+present_batches, _ = get_batches(present_data, vocab, batch_size, device)
+past_batches, _ = get_batches(past_data, vocab, batch_size, device)
+data_batches, _ = get_batches2(present_data, past_data, vocab, batch_size, device)
+word_batches, _ = get_batches3(present_data, past_data, vocab, batch_size, device)
 
-num_epochs = 10
+N = len(data_batches)
+#breakpoint()
+print("batches", N)
+w = torch.rand(dim_emb, requires_grad=True, device=device)
+opt = optim.SGD([w], lr=0.01, momentum=0.9)
+
+num_epochs = 1
 for e in range(num_epochs):
-
     total_loss = 0
-    for i in range(N):
-        x = present_batches[i][1]
-        x_edit = present_batches[i][1]
-        
+    indices = list(range(len(data_batches)))
+    random.shuffle(indices)
+    for i, idx in enumerate(indices[:10]):
+        print(i, idx)
+        x = data_batches[idx][0]
+        x_edit = data_batches[idx][1]
+        print("x", x.shape)
+        print("x_edit", x_edit.shape)
+        print(word_batches[idx][0][0])
+        print(word_batches[idx][1][0])
+        #max(data[i: j], key = lambda x: len(x))
+
         #print("x", x)
         #print("x_edit", x)
         mu, logvar, z, logits = model(x)
+        print("logits1", logits.shape)
+        print("z", z.shape)
         new_latent = z + alpha * w
         logits, hidden = model.decode(new_latent, x)
+        print("logits", logits.shape, logits.type())
+        print("x edit", x_edit.shape, x_edit.type())
+        #print(x_edit)
+        #breakpoint()
+        #losses = model.autoenc(logits, x_edit)
+        loss = model.loss_rec(logits, x_edit).mean()
+        print("loss", loss.shape, loss)
+        print("total loss", total_loss)
+        print("walk", w)
+        print("--------")
 
-        loss = model.loss_rec(logits, x_edit)
+        opt.zero_grad()
+        loss.backward()
+        opt.step()
         total_loss += loss
 
+print("FINISHED TRAINING")
+print(w)
 print(total_loss)

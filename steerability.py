@@ -56,12 +56,12 @@ print("batches", N)
 w = torch.rand(dim_emb, requires_grad=True, device=device)
 opt = optim.SGD([w], lr=0.01, momentum=0.9)
 
-num_epochs = 1
+num_epochs = 20
 for e in range(num_epochs):
     total_loss = 0
     indices = list(range(len(data_batches)))
     random.shuffle(indices)
-    for i, idx in enumerate(indices[:10]):
+    for i, idx in enumerate(indices):
         print(i, idx)
         x = data_batches[idx][0]
         x_edit = data_batches[idx][1]
@@ -93,7 +93,10 @@ for e in range(num_epochs):
         loss.backward()
         opt.step()
         total_loss += loss
+    print("FINISHED EPOCH", e)
+    print("loss", total_loss)
 
 print("FINISHED TRAINING")
 print(w)
+torch.save(w, "walk.pt")
 print(total_loss)

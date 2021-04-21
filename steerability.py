@@ -7,7 +7,7 @@ from utils import *
 from model import *
 from vocab import Vocab
 from batchify import get_batches2, get_batches, get_batches3
-
+import time
 
 checkpoint_dir = "checkpoints/yelp/daae/"
 parallel_data_dir = "parallel_data/"
@@ -57,44 +57,48 @@ w = torch.rand(dim_emb, requires_grad=True, device=device)
 opt = optim.SGD([w], lr=0.01, momentum=0.9)
 
 num_epochs = 20
+start_time = time.perf_counter()
 for e in range(num_epochs):
     total_loss = 0
     indices = list(range(len(data_batches)))
     random.shuffle(indices)
     for i, idx in enumerate(indices):
-        print(i, idx)
+        #print(i, idx)
         x = data_batches[idx][0]
         x_edit = data_batches[idx][1]
-        print("x", x.shape)
-        print("x_edit", x_edit.shape)
-        print(word_batches[idx][0][0])
-        print(word_batches[idx][1][0])
-        #max(data[i: j], key = lambda x: len(x))
+        #print("x", x.shape)
+        #print("x_edit", x_edit.shape)
+        #print(word_batches[idx][0][0])
+        #print(word_batches[idx][1][0])
 
         #print("x", x)
         #print("x_edit", x)
         mu, logvar, z, logits = model(x)
-        print("logits1", logits.shape)
-        print("z", z.shape)
+        #print("logits1", logits.shape)
+        #print("z", z.shape)
         new_latent = z + alpha * w
         logits, hidden = model.decode(new_latent, x)
-        print("logits", logits.shape, logits.type())
-        print("x edit", x_edit.shape, x_edit.type())
+        #print("logits", logits.shape, logits.type())
+        #print("x edit", x_edit.shape, x_edit.type())
         #print(x_edit)
         #breakpoint()
         #losses = model.autoenc(logits, x_edit)
         loss = model.loss_rec(logits, x_edit).mean()
-        print("loss", loss.shape, loss)
-        print("total loss", total_loss)
-        print("walk", w)
-        print("--------")
-
+        #print("loss", loss.shape, loss)
+        #print("total loss", total_loss)
+        #print("walk", w)
+        #print("--------")
+        
         opt.zero_grad()
         loss.backward()
         opt.step()
         total_loss += loss
+
+    print("---------------------------")
     print("FINISHED EPOCH", e)
     print("loss", total_loss)
+    epoch_time = time.perf_counter()
+    print("time", epoch_time)
 
 print("FINISHED TRAINING")
 print(w)

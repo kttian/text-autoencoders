@@ -28,8 +28,14 @@ def get_model(path):
 model = get_model(checkpoint_dir + "model.pt")
 model.eval()
 
-present_file = parallel_data_dir + "test.present"
-past_file = parallel_data_dir + "test.past"
+test_set_flag = False 
+if (test_set_flag == True): 
+    present_file = parallel_data_dir + "test.present"
+    past_file = parallel_data_dir + "test.past"
+else:
+    present_file = parallel_data_dir + "present.txt"
+    past_file = parallel_data_dir + "past.txt"
+
 present_data = load_sent(present_file)
 past_data = load_sent(past_file)
 
@@ -43,6 +49,7 @@ def decode_logits(logits):
     words = [vocab.idx2word[ind] for ind in word_inds]
     return(words)
 
+## load walk vector, and try
 w = torch.load("walk.pt")
 indices = list(range(len(data_batches)))
 random.shuffle(indices)
@@ -55,3 +62,12 @@ for i, idx in enumerate(indices):
     logits, hidden = model.decode(new_latent, x_present)
     words = decode_logits(logits)
     print("outcome:", words)
+
+
+## arithmetic
+'''fa, fb, fc = args.data.split(',')
+sa, sb, sc = load_sent(fa), load_sent(fb), load_sent(fc)
+za, zb, zc = encode(sa), encode(sb), encode(sc)
+zd = zc + args.k * (zb.mean(axis=0) - za.mean(axis=0))
+sd = decode(zd)
+write_sent(sd, os.path.join(args.checkpoint, args.output))'''

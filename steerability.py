@@ -38,7 +38,7 @@ past_file = parallel_data_dir + "past.txt"
 present_data = load_sent(present_file)
 past_data = load_sent(past_file)
 
-model.eval()
+model.train()
 
 # hyper parameters 
 alpha = 1

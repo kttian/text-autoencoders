@@ -50,11 +50,11 @@ past_batches, _ = get_batches(past_data, vocab, batch_size, device)
 data_batches, _ = get_batches2(present_data, past_data, vocab, batch_size, device)
 word_batches, _ = get_batches3(present_data, past_data, vocab, batch_size, device)
 
-N = len(data_batches)
+B = len(data_batches)
 #breakpoint()
-print("batches", N)
+print("batches", B)
 w = torch.rand(dim_emb, requires_grad=True, device=device)
-opt = optim.SGD([w], lr=0.01, momentum=0.9)
+opt = optim.SGD([w], lr=0.1, momentum=0.9)
 
 num_epochs = 20
 start_time = time.perf_counter()
@@ -88,7 +88,7 @@ for e in range(num_epochs):
         #print("total loss", total_loss)
         #print("walk", w)
         #print("--------")
-        
+
         opt.zero_grad()
         loss.backward()
         opt.step()
@@ -96,11 +96,11 @@ for e in range(num_epochs):
 
     print("---------------------------")
     print("FINISHED EPOCH", e)
-    print("loss", total_loss)
+    print("loss", total_loss/B)
     epoch_time = time.perf_counter()
     print("time", epoch_time)
 
 print("FINISHED TRAINING")
 print(w)
-torch.save(w, "walk.pt")
+torch.save(w, "walk_lr01.pt")
 print(total_loss)

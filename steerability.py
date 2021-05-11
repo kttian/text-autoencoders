@@ -110,6 +110,7 @@ def initialize(init_mode):
 def print_inital_loss(init_mode, w, data_batches, model):
     print("INITIAL LOSS:", init_mode, "init")
     total_loss = 0
+    B = len(data_batches)
     for idx in range(len(data_batches)):
         x = data_batches[idx][0]
         x_edit = data_batches[idx][1]
@@ -129,7 +130,7 @@ def train_walk(walk_file, w, data_batches, model, num_epochs):
     print("START TRAINING:", walk_file)
     opt = optim.SGD([w], lr=0.01, momentum=0.9)
     start_time = time.perf_counter()
-
+    B = len(data_batches)
     for e in range(num_epochs):
         total_loss = 0
         indices = list(range(len(data_batches)))

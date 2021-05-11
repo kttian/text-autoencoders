@@ -1,4 +1,3 @@
-#from test import *
 import argparse
 import os
 import torch
@@ -9,9 +8,40 @@ from vocab import Vocab
 from batchify import get_batches2, get_batches, get_batches3
 import time
 
+parser = argparse.ArgumentParser()
+# Path arguments
+parser.add_argument('--pres', metavar='FILE', required=True,
+                    help='name of present data file')
+parser.add_argument('--past', metavar='FILE', required=True,
+                    help='name of past data file')
+parser.add_argument('--walk_file', metavar='FILE', required=True,
+                    help='name of walk pt file')
+parser.add_argument('--init_mode', default="rand", metavar='P',
+                    help='mode for initializing w')
+parser.add_argument('--num_epochs', type=int, default=100, metavar='P',
+                    help='number of epochs for training w')
+
+##########################################################################
 checkpoint_dir = "checkpoints/yelp/daae/"
 parallel_data_dir = "parallel_data/"
+results_dir = "results/"
 
+# parameters
+set_seed(1111)
+pres_fn = "present.txt"
+past_fn = "past.txt"
+walk_file = "walk_test.pt"
+init_mode = "rand"
+num_epochs = 100
+
+# prints
+print("walk_file: \t", walk_file)
+print("data files: \t", pres_fn, ",", past_fn)
+print("init mode: \t", init_mode)
+print("num epochs: \t", num_epochs)
+print("-" * 60)
+
+##########################################################################
 vocab_file = os.path.join(checkpoint_dir, 'vocab.txt')
 #if not os.path.isfile(vocab_file):
 #    Vocab.build(train_sents, vocab_file, args.vocab_size)
@@ -19,6 +49,12 @@ vocab = Vocab(vocab_file)
 
 cuda = torch.cuda.is_available()
 device = torch.device('cuda' if cuda else 'cpu')
+
+# hyper parameters 
+alpha = 1
+dim_emb = 128 
+batch_size = 256
+
 
 def get_model(path):
     ckpt = torch.load(path)
@@ -29,78 +65,131 @@ def get_model(path):
     model.eval()
     return model
 
-model = get_model(checkpoint_dir + "model.pt")
+def encode(sents):
+    batches, order = get_batches(sents, vocab, batch_size, device)
+    z = []
+    for inputs, _ in batches:
+        mu, logvar = model.encode(inputs)
+        zi = reparameterize(mu, logvar)
+        z.append(zi.detach().cpu().numpy())
+    z = np.concatenate(z, axis=0)
+    z_ = np.zeros_like(z)
+    z_[np.array(order)] = z
+    return z_
 
-print(model)
+def get_arithmetic(pres_data, past_data):
+    za, zb = encode(pres_data), encode(past_data)
+    w = torch.tensor(zb.mean(axis=0) - za.mean(axis=0), requires_grad = True, device=device)
+    return w
 
-present_file = parallel_data_dir + "present.txt"
-past_file = parallel_data_dir + "past.txt"
-present_data = load_sent(present_file)
-past_data = load_sent(past_file)
+def load_model(checkpoint_dir):
+    model = get_model(checkpoint_dir + "model.pt")
+    
+    # model.train()
+    # for param in model.parameters():
+    #     param.requires_grad = False # freeze the model
 
-model.train()
+    return model
 
-# hyper parameters 
-alpha = 1
-dim_emb = 128 
-batch_size = 32 # 256
-#breakpoint()
-present_batches, _ = get_batches(present_data, vocab, batch_size, device)
-past_batches, _ = get_batches(past_data, vocab, batch_size, device)
-data_batches, _ = get_batches2(present_data, past_data, vocab, batch_size, device)
-word_batches, _ = get_batches3(present_data, past_data, vocab, batch_size, device)
+def load_data(pres_fn, past_fn):
+    present_file = parallel_data_dir + pres_fn
+    past_file = parallel_data_dir + past_fn
+    present_data = load_sent(present_file)
+    past_data = load_sent(past_file)
+    print("present, past data length:", len(present_data), len(past_data))
+    data_batches, _ = get_batches2(present_data, past_data, vocab, batch_size, device)
+    B = len(data_batches)
+    print("number of batches:", B)
+    return data_batches
 
-B = len(data_batches)
-#breakpoint()
-print("batches", B)
-w = torch.rand(dim_emb, requires_grad=True, device=device)
-opt = optim.SGD([w], lr=0.1, momentum=0.9)
+def initialize(init_mode):
+    if init_mode == "rand":
+        w = torch.randn(dim_emb, requires_grad=True, device=device)
+    elif init_mode == "zero":
+        w = torch.zeros(dim_emb, requires_grad=True, device=device)
+    elif init_mode == "arithmetic":
+        w = torch.load(results_dir + "arithmetic.pt")
+        w.requires_grad = True
+        w = w.to(device)
+    return w
 
-num_epochs = 20
-start_time = time.perf_counter()
-for e in range(num_epochs):
+def print_inital_loss(init_mode, w, data_batches, model):
+    print("INITIAL LOSS:", init_mode, "init")
     total_loss = 0
-    indices = list(range(len(data_batches)))
-    random.shuffle(indices)
-    for i, idx in enumerate(indices):
-        #print(i, idx)
+    for idx in range(len(data_batches)):
         x = data_batches[idx][0]
         x_edit = data_batches[idx][1]
-        #print("x", x.shape)
-        #print("x_edit", x_edit.shape)
-        #print(word_batches[idx][0][0])
-        #print(word_batches[idx][1][0])
-
-        #print("x", x)
-        #print("x_edit", x)
-        mu, logvar, z, logits = model(x)
-        #print("logits1", logits.shape)
-        #print("z", z.shape)
+        
+        mu, logvar = model.encode(x)
+        z = reparameterize(mu, logvar)
         new_latent = z + alpha * w
         logits, hidden = model.decode(new_latent, x)
-        #print("logits", logits.shape, logits.type())
-        #print("x edit", x_edit.shape, x_edit.type())
-        #print(x_edit)
-        #breakpoint()
-        #losses = model.autoenc(logits, x_edit)
         loss = model.loss_rec(logits, x_edit).mean()
-        #print("loss", loss.shape, loss)
-        #print("total loss", total_loss)
-        #print("walk", w)
-        #print("--------")
-
-        opt.zero_grad()
-        loss.backward()
-        opt.step()
+        print("LOSS", idx, ":", loss)
         total_loss += loss
 
-    print("---------------------------")
-    print("FINISHED EPOCH", e)
-    print("loss", total_loss/B)
-    epoch_time = time.perf_counter()
-    print("time", epoch_time)
+    print("average loss", total_loss/B)
+    print("=" * 60)
 
-print("FINISHED TRAINING")
-print(w)
-torch.save(w, "walk_lr01.pt")
-print(total_loss)
+def train_walk(walk_file, w, data_batches, model, num_epochs):
+    print("START TRAINING:", walk_file)
+    opt = optim.SGD([w], lr=0.01, momentum=0.9)
+    start_time = time.perf_counter()
+
+    for e in range(num_epochs):
+        total_loss = 0
+        indices = list(range(len(data_batches)))
+        random.shuffle(indices)
+        for i, idx in enumerate(indices):
+            opt.zero_grad()
+            x = data_batches[idx][0]
+            x_edit = data_batches[idx][1]
+            #print(x_edit[0])
+            #print(x_edit_one_hot[0])
+
+            # encode the input x
+            mu, logvar = model.encode(x)
+            z = reparameterize(mu, logvar)
+            # add w to compute new latent
+            new_latent = z + alpha * w
+            # decode the new latent
+            logits, hidden = model.decode(new_latent, x)
+            # compute the loss wrt to the edit
+            loss = model.loss_rec(logits, x_edit).mean()
+            #print("LOSS", idx, ":", loss)
+
+            loss.backward()
+            opt.step()
+            total_loss += loss
+
+        print("---------------------------")
+        print("FINISHED EPOCH", e)
+        print("average loss", total_loss/B)
+        print("loss", loss)
+        epoch_time = time.perf_counter()
+        print("time", epoch_time)
+        print("=" * 60)
+
+    print("FINISHED TRAINING")
+    print(w)
+    torch.save(w, results_dir + walk_file)
+    return w 
+
+#print(total_loss)
+
+def main(args):
+    pres_fn = args.pres
+    past_fn = args.past
+    walk_file = args.walk_file
+    init_mode = args.init_mode 
+    num_epochs = args.num_epochs
+    
+    model = load_model(checkpoint_dir)
+    data_batches = load_data(pres_fn, past_fn)
+    w = initialize(init_mode)
+    print_inital_loss(init_mode, w, data_batches, model)
+    w_final = train_walk(walk_file, w, data_batches, model, num_epochs)
+
+if __name__ == '__main__':
+    args = parser.parse_args()
+    main(args)

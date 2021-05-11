@@ -9,7 +9,7 @@ parallel_data_dir = "parallel_data/"
 
 def convert(tense_idx):
     tenses = ["present", "past"]
-    tense_data = tense_data_dir + "valid." + tenses[tense_idx]
+    tense_data = tense_data_dir + "test." + tenses[tense_idx]
     tense_sents = load_sent_no_split(tense_data)
     converted_sents = []
     for sent in tense_sents:
@@ -28,8 +28,8 @@ def main(args):
     past_sents += past2
     present_sents += present2 
     
-    write_sent_no_split(past_sents, parallel_data_dir + "past.txt")
-    write_sent_no_split(present_sents, parallel_data_dir + "present.txt")
+    write_sent_no_split(past_sents, parallel_data_dir + "past_test.txt")
+    write_sent_no_split(present_sents, parallel_data_dir + "present_test.txt")
 
 if __name__ == '__main__':
     args = parser.parse_args()

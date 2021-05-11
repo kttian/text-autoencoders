@@ -28,6 +28,33 @@ def get_model(path):
 model = get_model(checkpoint_dir + "model.pt")
 model.eval()
 
+def encode(sents):
+    assert args.enc == 'mu' or args.enc == 'z'
+    batches, order = get_batches(sents, vocab, args.batch_size, device)
+    z = []
+    for inputs, _ in batches:
+        mu, logvar = model.encode(inputs)
+        if args.enc == 'mu':
+            zi = mu
+        else:
+            zi = reparameterize(mu, logvar)
+        z.append(zi.detach().cpu().numpy())
+    z = np.concatenate(z, axis=0)
+    z_ = np.zeros_like(z)
+    z_[np.array(order)] = z
+    return z_
+
+def decode(z):
+    sents = []
+    i = 0
+    while i < len(z):
+        zi = torch.tensor(z[i: i+args.batch_size], device=device)
+        outputs = model.generate(zi, args.max_len, args.dec).t()
+        for s in outputs:
+            sents.append([vocab.idx2word[id] for id in s[1:]])  # skip <go>
+        i += args.batch_size
+    return strip_eos(sents)
+
 test_set_flag = False 
 if (test_set_flag == True): 
     present_file = parallel_data_dir + "test.present"
@@ -39,7 +66,7 @@ else:
 present_data = load_sent(present_file)
 past_data = load_sent(past_file)
 
-batch_size = 1
+batch_size = 32
 alpha = 1
 data_batches, _ = get_batches2(present_data, past_data, vocab, batch_size, device)
 word_batches, _ = get_batches3(present_data, past_data, vocab, batch_size, device)
@@ -52,7 +79,6 @@ def decode_logits(logits):
 ## load walk vector, and try
 w = torch.load("walk.pt")
 indices = list(range(len(data_batches)))
-random.shuffle(indices)
 for i, idx in enumerate(indices):
     x_present = data_batches[idx][0]
     print("test set:", word_batches[idx][0])
@@ -65,9 +91,12 @@ for i, idx in enumerate(indices):
 
 
 ## arithmetic
-'''fa, fb, fc = args.data.split(',')
+'''
+fa, fb, fc = "parallel_data/present.txt,parallel_data/past.txt,data/yelp/tense/test.present".split(',')
 sa, sb, sc = load_sent(fa), load_sent(fb), load_sent(fc)
 za, zb, zc = encode(sa), encode(sb), encode(sc)
-zd = zc + args.k * (zb.mean(axis=0) - za.mean(axis=0))
+zd = zc + (zb.mean(axis=0) - za.mean(axis=0))
+breakpoint()
 sd = decode(zd)
-write_sent(sd, os.path.join(args.checkpoint, args.output))'''
+write_sent(sd, "tests/arithmetic_present2past")
+'''

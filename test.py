@@ -39,6 +39,8 @@ parser.add_argument('--sample', action='store_true',
                     help='sample sentences from prior')
 parser.add_argument('--arithmetic', action='store_true',
                     help='compute vector offset avg(b)-avg(a) and apply to c')
+parser.add_argument('--walk', action='store_true',
+                    help='load vector offset from walk.pt and apply to c')
 parser.add_argument('--interpolate', action='store_true',
                     help='interpolate between pairs of sentences')
 parser.add_argument('--latent-nn', action='store_true',
@@ -137,9 +139,24 @@ if __name__ == '__main__':
         fa, fb, fc = args.data.split(',')
         sa, sb, sc = load_sent(fa), load_sent(fb), load_sent(fc)
         za, zb, zc = encode(sa), encode(sb), encode(sc)
-        zd = zc + args.k * (zb.mean(axis=0) - za.mean(axis=0))
+        w = zb.mean(axis=0) - za.mean(axis=0)
+        zd = zc + args.k * (w)
         sd = decode(zd)
-        write_sent(sd, os.path.join(args.checkpoint, args.output))
+        write_sent(sd, os.path.join("", args.output))
+
+        print(w)
+        tw = torch.from_numpy(w)
+        torch.save(tw.to(device), "arithmetic.pt")
+
+    if args.walk:
+        fa, fb, fc = args.data.split(',')
+        sa, sb, sc = load_sent(fa), load_sent(fb), load_sent(fc)
+        za, zb, zc = encode(sa), encode(sb), encode(sc)
+        w = torch.load("walk_lr001")
+        zd = zc + args.k * w.cpu().detach().numpy()
+        sd = decode(zd)
+        write_sent(sd, os.path.join("", args.output + "_walk_zeros"))
+        print(w)
 
     if args.interpolate:
         f1, f2 = args.data.split(',')

@@ -34,12 +34,6 @@ walk_file = "walk_test.pt"
 init_mode = "rand"
 num_epochs = 100
 
-# prints
-print("walk_file: \t", walk_file)
-print("data files: \t", pres_fn, ",", past_fn)
-print("init mode: \t", init_mode)
-print("num epochs: \t", num_epochs)
-print("-" * 60)
 
 ##########################################################################
 vocab_file = os.path.join(checkpoint_dir, 'vocab.txt')
@@ -184,6 +178,13 @@ def main(args):
     init_mode = args.init_mode 
     num_epochs = args.num_epochs
     
+    # prints
+    print("walk_file: \t", walk_file)
+    print("data files: \t", pres_fn, ",", past_fn)
+    print("init mode: \t", init_mode)
+    print("num epochs: \t", num_epochs)
+    print("-" * 60)
+
     model = load_model(checkpoint_dir)
     data_batches = load_data(pres_fn, past_fn)
     w = initialize(init_mode)

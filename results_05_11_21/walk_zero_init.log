@@ -1,0 +1,692 @@
+walk_file: 	 walk_test.pt
+data files: 	 present.txt , past.txt
+init mode: 	 rand
+num epochs: 	 100
+------------------------------------------------------------
+present, past data length: 7306 7306
+number of batches: 61
+INITIAL LOSS: zero init
+LOSS 0 : tensor(21.5338, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 1 : tensor(27.0233, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 2 : tensor(36.8488, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 3 : tensor(44.6225, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 4 : tensor(44.7480, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 5 : tensor(54.2112, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 6 : tensor(51.3019, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 7 : tensor(63.8054, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 8 : tensor(57.4870, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 9 : tensor(57.6667, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 10 : tensor(73.8657, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 11 : tensor(66.1141, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 12 : tensor(67.7479, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 13 : tensor(81.3569, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 14 : tensor(71.1195, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 15 : tensor(72.7274, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 16 : tensor(90.7665, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 17 : tensor(76.7289, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 18 : tensor(75.4909, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 19 : tensor(99.5097, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 20 : tensor(85.3277, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 21 : tensor(81.9000, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 22 : tensor(109.9488, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 23 : tensor(96.1635, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 24 : tensor(89.4567, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 25 : tensor(118.0868, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 26 : tensor(95.4434, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 27 : tensor(96.9745, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 28 : tensor(124.4044, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 29 : tensor(104.8671, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 30 : tensor(106.2056, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 31 : tensor(119.7267, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 32 : tensor(104.0613, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 33 : tensor(105.7148, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 34 : tensor(111.4872, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 35 : tensor(110.9616, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 36 : tensor(170.3322, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 37 : tensor(155.1875, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 38 : tensor(178.2017, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 39 : tensor(175.9034, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 40 : tensor(211.7960, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 41 : tensor(209.6910, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 42 : tensor(272.0737, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 43 : tensor(240.0459, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 44 : tensor(259.3167, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 45 : tensor(306.2902, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 46 : tensor(345.1348, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 47 : tensor(428.8964, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 48 : tensor(459.7945, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 49 : tensor(274.6506, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 50 : tensor(362.4372, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 51 : tensor(377.1763, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 52 : tensor(463.6498, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 53 : tensor(531.5020, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 54 : tensor(345.0158, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 55 : tensor(351.7655, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 56 : tensor(698.2611, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 57 : tensor(757.2244, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 58 : tensor(847.1538, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 59 : tensor(545.6235, device='cuda:0', grad_fn=<MeanBackward0>)
+LOSS 60 : tensor(564.1034, device='cuda:0', grad_fn=<MeanBackward0>)
+average loss tensor(203.7153, device='cuda:0', grad_fn=<DivBackward0>)
+============================================================
+START TRAINING: walk_zero_init.pt
+---------------------------
+FINISHED EPOCH 0
+average loss tensor(136.2025, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(72.6051, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304233.174266482
+============================================================
+---------------------------
+FINISHED EPOCH 1
+average loss tensor(124.5566, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(80.9951, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304235.233439988
+============================================================
+---------------------------
+FINISHED EPOCH 2
+average loss tensor(122.2005, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(68.3213, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304237.300297467
+============================================================
+---------------------------
+FINISHED EPOCH 3
+average loss tensor(120.5386, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(76.5526, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304239.356925874
+============================================================
+---------------------------
+FINISHED EPOCH 4
+average loss tensor(119.4352, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(94.1446, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304241.419812717
+============================================================
+---------------------------
+FINISHED EPOCH 5
+average loss tensor(118.6101, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(96.1973, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304243.472396495
+============================================================
+---------------------------
+FINISHED EPOCH 6
+average loss tensor(118.5883, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(112.0940, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304245.533228488
+============================================================
+---------------------------
+FINISHED EPOCH 7
+average loss tensor(118.6036, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(37.4722, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304247.589438386
+============================================================
+---------------------------
+FINISHED EPOCH 8
+average loss tensor(118.3666, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(173.9300, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304249.653847661
+============================================================
+---------------------------
+FINISHED EPOCH 9
+average loss tensor(117.3706, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(80.3268, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304251.708427128
+============================================================
+---------------------------
+FINISHED EPOCH 10
+average loss tensor(117.2874, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(76.3460, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304253.765917576
+============================================================
+---------------------------
+FINISHED EPOCH 11
+average loss tensor(116.7427, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(79.1017, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304255.824110094
+============================================================
+---------------------------
+FINISHED EPOCH 12
+average loss tensor(117.0156, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(185.3947, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304257.881631119
+============================================================
+---------------------------
+FINISHED EPOCH 13
+average loss tensor(116.8153, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(86.9013, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304259.936447843
+============================================================
+---------------------------
+FINISHED EPOCH 14
+average loss tensor(116.4412, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(44.1194, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304261.995770341
+============================================================
+---------------------------
+FINISHED EPOCH 15
+average loss tensor(115.7189, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(55.4271, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304264.045173849
+============================================================
+---------------------------
+FINISHED EPOCH 16
+average loss tensor(115.8504, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(218.3680, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304266.106809961
+============================================================
+---------------------------
+FINISHED EPOCH 17
+average loss tensor(115.9982, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(65.5446, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304268.158598373
+============================================================
+---------------------------
+FINISHED EPOCH 18
+average loss tensor(115.8043, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(56.1559, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304270.220262508
+============================================================
+---------------------------
+FINISHED EPOCH 19
+average loss tensor(115.1254, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(54.2931, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304272.28272549
+============================================================
+---------------------------
+FINISHED EPOCH 20
+average loss tensor(115.2168, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(164.6479, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304274.34203991
+============================================================
+---------------------------
+FINISHED EPOCH 21
+average loss tensor(115.0253, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(34.2212, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304276.400292463
+============================================================
+---------------------------
+FINISHED EPOCH 22
+average loss tensor(114.7890, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(33.9191, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304278.45613436
+============================================================
+---------------------------
+FINISHED EPOCH 23
+average loss tensor(114.9580, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(181.4047, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304280.515382316
+============================================================
+---------------------------
+FINISHED EPOCH 24
+average loss tensor(114.7550, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(144.7849, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304282.572333186
+============================================================
+---------------------------
+FINISHED EPOCH 25
+average loss tensor(114.6657, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(33.4360, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304284.638794281
+============================================================
+---------------------------
+FINISHED EPOCH 26
+average loss tensor(114.4310, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(49.6804, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304286.694078046
+============================================================
+---------------------------
+FINISHED EPOCH 27
+average loss tensor(114.4908, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(67.5138, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304288.749832395
+============================================================
+---------------------------
+FINISHED EPOCH 28
+average loss tensor(114.4105, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(65.3356, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304290.812293085
+============================================================
+---------------------------
+FINISHED EPOCH 29
+average loss tensor(114.4655, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(118.3889, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304292.871616337
+============================================================
+---------------------------
+FINISHED EPOCH 30
+average loss tensor(114.4446, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(74.3303, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304294.927346461
+============================================================
+---------------------------
+FINISHED EPOCH 31
+average loss tensor(114.2361, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(279.1329, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304296.989630305
+============================================================
+---------------------------
+FINISHED EPOCH 32
+average loss tensor(114.5364, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(143.4193, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304299.050387085
+============================================================
+---------------------------
+FINISHED EPOCH 33
+average loss tensor(114.5822, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(48.8355, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304301.106489603
+============================================================
+---------------------------
+FINISHED EPOCH 34
+average loss tensor(114.1034, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(132.6266, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304303.163707726
+============================================================
+---------------------------
+FINISHED EPOCH 35
+average loss tensor(114.3393, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(89.6978, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304305.221538421
+============================================================
+---------------------------
+FINISHED EPOCH 36
+average loss tensor(114.1613, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(48.5280, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304307.277689688
+============================================================
+---------------------------
+FINISHED EPOCH 37
+average loss tensor(114.1339, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(33.4884, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304309.346568165
+============================================================
+---------------------------
+FINISHED EPOCH 38
+average loss tensor(113.8418, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(47.8875, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304311.399116576
+============================================================
+---------------------------
+FINISHED EPOCH 39
+average loss tensor(113.6712, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(42.9328, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304313.462673231
+============================================================
+---------------------------
+FINISHED EPOCH 40
+average loss tensor(114.0194, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(76.6171, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304315.530542371
+============================================================
+---------------------------
+FINISHED EPOCH 41
+average loss tensor(113.8392, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(215.3417, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304317.596319692
+============================================================
+---------------------------
+FINISHED EPOCH 42
+average loss tensor(114.0400, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(91.2692, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304319.655711531
+============================================================
+---------------------------
+FINISHED EPOCH 43
+average loss tensor(113.8305, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(304.5017, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304321.713825585
+============================================================
+---------------------------
+FINISHED EPOCH 44
+average loss tensor(113.3982, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(42.7621, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304323.77788207
+============================================================
+---------------------------
+FINISHED EPOCH 45
+average loss tensor(113.1320, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(107.9396, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304325.842283885
+============================================================
+---------------------------
+FINISHED EPOCH 46
+average loss tensor(113.1010, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(37.7132, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304327.901054684
+============================================================
+---------------------------
+FINISHED EPOCH 47
+average loss tensor(113.6836, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(351.3000, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304329.966340037
+============================================================
+---------------------------
+FINISHED EPOCH 48
+average loss tensor(113.8661, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(288.2835, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304332.036665084
+============================================================
+---------------------------
+FINISHED EPOCH 49
+average loss tensor(113.0769, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(168.5034, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304334.091054631
+============================================================
+---------------------------
+FINISHED EPOCH 50
+average loss tensor(113.5239, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(179.4316, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304336.150270567
+============================================================
+---------------------------
+FINISHED EPOCH 51
+average loss tensor(113.0464, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(120.5888, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304338.217543272
+============================================================
+---------------------------
+FINISHED EPOCH 52
+average loss tensor(113.4705, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(40.7579, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304340.291395802
+============================================================
+---------------------------
+FINISHED EPOCH 53
+average loss tensor(113.4510, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(167.7836, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304342.359662493
+============================================================
+---------------------------
+FINISHED EPOCH 54
+average loss tensor(113.7422, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(309.3546, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304344.41744414
+============================================================
+---------------------------
+FINISHED EPOCH 55
+average loss tensor(113.7657, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(62.4532, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304346.475585576
+============================================================
+---------------------------
+FINISHED EPOCH 56
+average loss tensor(113.4593, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(171.4240, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304348.533272166
+============================================================
+---------------------------
+FINISHED EPOCH 57
+average loss tensor(113.2013, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(57.5978, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304350.59959597
+============================================================
+---------------------------
+FINISHED EPOCH 58
+average loss tensor(113.7091, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(73.8420, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304352.66469318
+============================================================
+---------------------------
+FINISHED EPOCH 59
+average loss tensor(113.4315, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(166.8873, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304354.728204485
+============================================================
+---------------------------
+FINISHED EPOCH 60
+average loss tensor(113.2733, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(172.1036, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304356.792665977
+============================================================
+---------------------------
+FINISHED EPOCH 61
+average loss tensor(113.0967, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(22.0402, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304358.851752672
+============================================================
+---------------------------
+FINISHED EPOCH 62
+average loss tensor(113.3077, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(76.0938, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304360.916986954
+============================================================
+---------------------------
+FINISHED EPOCH 63
+average loss tensor(113.5654, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(64.2122, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304362.989572689
+============================================================
+---------------------------
+FINISHED EPOCH 64
+average loss tensor(113.2648, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(52.4547, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304365.041732785
+============================================================
+---------------------------
+FINISHED EPOCH 65
+average loss tensor(113.7687, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(107.7845, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304367.103233487
+============================================================
+---------------------------
+FINISHED EPOCH 66
+average loss tensor(113.5704, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(69.8312, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304369.167613135
+============================================================
+---------------------------
+FINISHED EPOCH 67
+average loss tensor(112.9004, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(107.7009, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304371.229505814
+============================================================
+---------------------------
+FINISHED EPOCH 68
+average loss tensor(113.2235, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(60.8396, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304373.291783194
+============================================================
+---------------------------
+FINISHED EPOCH 69
+average loss tensor(113.3364, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(75.6877, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304375.34842846
+============================================================
+---------------------------
+FINISHED EPOCH 70
+average loss tensor(113.5237, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(41.2658, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304377.398401455
+============================================================
+---------------------------
+FINISHED EPOCH 71
+average loss tensor(112.9888, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(105.4302, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304379.451602817
+============================================================
+---------------------------
+FINISHED EPOCH 72
+average loss tensor(112.9003, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(300.8510, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304381.52417511
+============================================================
+---------------------------
+FINISHED EPOCH 73
+average loss tensor(113.3017, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(41.5117, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304383.58600894
+============================================================
+---------------------------
+FINISHED EPOCH 74
+average loss tensor(113.2158, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(31.9864, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304385.660043033
+============================================================
+---------------------------
+FINISHED EPOCH 75
+average loss tensor(113.6473, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(167.5487, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304387.725213594
+============================================================
+---------------------------
+FINISHED EPOCH 76
+average loss tensor(113.2212, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(169.2308, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304389.784048057
+============================================================
+---------------------------
+FINISHED EPOCH 77
+average loss tensor(113.0837, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(61.4377, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304391.841203745
+============================================================
+---------------------------
+FINISHED EPOCH 78
+average loss tensor(113.2027, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(160.6190, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304393.901869103
+============================================================
+---------------------------
+FINISHED EPOCH 79
+average loss tensor(113.1626, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(146.4099, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304395.962467662
+============================================================
+---------------------------
+FINISHED EPOCH 80
+average loss tensor(113.5676, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(170.5942, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304398.02054909
+============================================================
+---------------------------
+FINISHED EPOCH 81
+average loss tensor(112.9189, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(73.4386, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304400.078095563
+============================================================
+---------------------------
+FINISHED EPOCH 82
+average loss tensor(113.4177, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(58.3135, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304402.142912357
+============================================================
+---------------------------
+FINISHED EPOCH 83
+average loss tensor(113.1625, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(53.3830, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304404.199582946
+============================================================
+---------------------------
+FINISHED EPOCH 84
+average loss tensor(113.1316, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(112.0490, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304406.271082638
+============================================================
+---------------------------
+FINISHED EPOCH 85
+average loss tensor(113.1843, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(35.7164, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304408.326623745
+============================================================
+---------------------------
+FINISHED EPOCH 86
+average loss tensor(113.3978, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(180.3021, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304410.385990394
+============================================================
+---------------------------
+FINISHED EPOCH 87
+average loss tensor(112.6419, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(80.2054, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304412.450818972
+============================================================
+---------------------------
+FINISHED EPOCH 88
+average loss tensor(113.1612, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(176.4608, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304414.514694222
+============================================================
+---------------------------
+FINISHED EPOCH 89
+average loss tensor(112.5699, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(73.8617, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304416.567572184
+============================================================
+---------------------------
+FINISHED EPOCH 90
+average loss tensor(112.9003, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(131.6914, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304418.637406636
+============================================================
+---------------------------
+FINISHED EPOCH 91
+average loss tensor(112.8633, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(176.1370, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304420.694746139
+============================================================
+---------------------------
+FINISHED EPOCH 92
+average loss tensor(112.7829, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(46.9104, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304422.764150752
+============================================================
+---------------------------
+FINISHED EPOCH 93
+average loss tensor(112.8538, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(181.7371, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304424.823585435
+============================================================
+---------------------------
+FINISHED EPOCH 94
+average loss tensor(112.9449, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(67.0983, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304426.87539711
+============================================================
+---------------------------
+FINISHED EPOCH 95
+average loss tensor(113.0132, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(355.0161, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304428.923011788
+============================================================
+---------------------------
+FINISHED EPOCH 96
+average loss tensor(113.2263, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(56.9091, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304430.983246839
+============================================================
+---------------------------
+FINISHED EPOCH 97
+average loss tensor(112.4615, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(73.3315, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304433.039083099
+============================================================
+---------------------------
+FINISHED EPOCH 98
+average loss tensor(112.9034, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(168.8286, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304435.105249238
+============================================================
+---------------------------
+FINISHED EPOCH 99
+average loss tensor(112.8559, device='cuda:0', grad_fn=<DivBackward0>)
+loss tensor(87.2660, device='cuda:0', grad_fn=<MeanBackward0>)
+time 4304437.162548042
+============================================================
+FINISHED TRAINING
+tensor([  8.7147,  -4.7423,   2.7376,  -3.3898,   3.3225,   2.7480,   1.7009,
+         -1.5780,  -2.6788,  -4.2228,   0.8051,   0.6299,  -2.2795,   0.5159,
+          1.4079,   0.5598,  -1.6217,  -1.2154,   7.0131,  -0.5294,   2.8794,
+          6.1847,  -0.1676,  -0.2210,   3.8438,   5.6882,   2.0325,   0.1134,
+         -3.9918,   1.1550,  -3.9182,   2.4261,   2.1122,   2.4217,   1.4409,
+          5.5046,   7.1667,   4.5123,  -2.7267,  -8.6037,  -2.9774,  -6.5733,
+         -2.9028,   2.4171,  -4.4796, -12.0320,   6.9030,  -0.3250, -10.8169,
+         -3.2928,   2.2889,   6.8877,   2.5133,  -5.1234,   4.5525,   5.9789,
+         -3.9692,  -7.6442,   1.6629,   2.8290,   1.8117,  -5.3230,   2.3170,
+          1.1145,   1.9635,  -2.2348,   0.1962,  -2.8671,  -3.4856,  -0.5537,
+         -0.1821,   1.5602,  10.5812,   6.9769,  -2.4789,  -5.0033,   3.6312,
+          7.2629,   3.1016,  -0.3910,   6.5280,  -4.6614,  -0.2347,  -5.2358,
+          4.7660,  -3.5874,   0.2125,  -4.0334,  -0.9844,   7.2443,  -3.6816,
+         -1.8651,  -7.5297,   9.2516,  -5.1553,   4.1008,   1.2565,  -0.8799,
+          3.4241,   6.2705,  -2.6801,   1.7191,  -5.4950,  -0.7872,   1.6733,
+          2.2141,  -2.3287,  -5.1458,   4.7074,  -4.8383,  -3.3345,   2.6186,
+          7.4385,   1.8235,   4.5605,  -0.8820,  -5.6302,  -8.1569,   3.8581,
+          3.9133,   3.1012,  -1.1052,  -4.9640,   2.4991,   1.1909,  -3.0157,
+          5.5043,  -4.3439], device='cuda:0', requires_grad=True)

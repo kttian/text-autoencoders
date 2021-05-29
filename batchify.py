@@ -37,7 +37,7 @@ def get_batch2(x, x_edited, vocab, device):
     for s in x:
         s_idx = [vocab.word2idx[w] if w in vocab.word2idx else vocab.unk for w in s]
         padding = [vocab.pad] * (max_len - len(s))
-        x_ret.append(s_idx + [vocab.eos] + padding)
+        x_ret.append([vocab.go] + s_idx + padding)
 
     for s in x_edited:
         s_idx = [vocab.word2idx[w] if w in vocab.word2idx else vocab.unk for w in s]
@@ -63,6 +63,9 @@ def get_batches2(data, edited, vocab, batch_size, device):
         batches.append(single_batch)
         #breakpoint()
         i = j
+    #print("batches shape", len(batches))
+    #print(batches[0][0].shape)
+    #print(batches[0][1].shape)
     return batches, order
 
 def get_batches3(data, edited, vocab, batch_size, device):

@@ -7,6 +7,7 @@ from model import *
 from vocab import Vocab
 from batchify import get_batches2, get_batches, get_batches3
 import time
+from train import evaluate 
 
 parser = argparse.ArgumentParser()
 # Path arguments
@@ -20,20 +21,20 @@ parser.add_argument('--init_mode', default="rand", metavar='P',
                     help='mode for initializing w')
 parser.add_argument('--num_epochs', type=int, default=100, metavar='P',
                     help='number of epochs for training w')
-
+parser.add_argument('--eval', type=bool, default=False, metavar='P',
+                    help='True if evaluating, False if training')
 ##########################################################################
-checkpoint_dir = "checkpoints/yelp/daae/"
-parallel_data_dir = "parallel_data/"
-results_dir = "results/"
+checkpoint_dir = "checkpoints/yelp/daae3/"
+parallel_data_dir = ""
+results_dir = "results_05_25_21/"
 
 # parameters
 set_seed(1111)
-pres_fn = "present.txt"
-past_fn = "past.txt"
-walk_file = "walk_test.pt"
-init_mode = "rand"
-num_epochs = 100
-
+# pres_fn = "present.txt"
+# past_fn = "past.txt"
+# walk_file = "walk_test.pt"
+# init_mode = "rand"
+# num_epochs = 100
 
 ##########################################################################
 vocab_file = os.path.join(checkpoint_dir, 'vocab.txt')
@@ -49,6 +50,15 @@ alpha = 1
 dim_emb = 128 
 batch_size = 256
 
+def debug_memory():
+    import collections, gc, resource, torch
+    print('maxrss = {}'.format(
+        resource.getrusage(resource.RUSAGE_SELF).ru_maxrss))
+    tensors = collections.Counter((str(o.device), tuple(o.shape))
+                                  for o in gc.get_objects()
+                                  if torch.is_tensor(o))
+    for line in tensors.items():
+        print('{}\t{}'.format(*line))
 
 def get_model(path):
     ckpt = torch.load(path)
@@ -78,8 +88,10 @@ def get_arithmetic(pres_data, past_data):
 
 def load_model(checkpoint_dir):
     model = get_model(checkpoint_dir + "model.pt")
+    print("MODEL")
+    print(model)
     
-    # model.train()
+    model.eval()
     # for param in model.parameters():
     #     param.requires_grad = False # freeze the model
 
@@ -107,26 +119,36 @@ def initialize(init_mode):
         w = w.to(device)
     return w
 
-def print_inital_loss(init_mode, w, data_batches, model):
-    print("INITIAL LOSS:", init_mode, "init")
-    total_loss = 0
-    B = len(data_batches)
-    for idx in range(len(data_batches)):
-        x = data_batches[idx][0]
-        x_edit = data_batches[idx][1]
-        
-        mu, logvar = model.encode(x)
-        z = reparameterize(mu, logvar)
-        new_latent = z + alpha * w
-        logits, hidden = model.decode(new_latent, x)
-        loss = model.loss_rec(logits, x_edit).mean()
-        print("LOSS", idx, ":", loss)
-        total_loss += loss
+def average_loss(w, data_batches, model):
+    model.eval()
+    with torch.no_grad():
+        total_loss = 0
+        B = len(data_batches)
+        for idx in range(len(data_batches)):
+            x, x_edit = data_batches[idx]
+            
+            mu, logvar = model.encode(x)
+            z = reparameterize(mu, logvar)
+            # print("steerab ", z)
+            new_latent = z + alpha * w
+            logits, hidden = model.decode(new_latent, x)
+            loss = model.loss_rec(logits, x_edit).mean()
 
-    print("average loss", total_loss/B)
-    print("=" * 60)
+            losses = model.autoenc(x, x_edit)
+            print("autoenc", idx, ":", losses['rec'], "shapes", x.shape, x_edit.shape)
+            #print("LOSS   ", idx, ":", loss)
+            total_loss += loss
+            #print(torch.cuda.memory_summary(device=None, abbreviated=False))
+
+        avg_loss = total_loss/B
+        print("average loss", avg_loss)
+        print("=" * 60)
+    return avg_loss
 
 def train_walk(walk_file, w, data_batches, model, num_epochs):
+    model.train()
+    # for param in model.parameters():
+    #     param.requires_grad = False # freeze the model
     print("START TRAINING:", walk_file)
     opt = optim.SGD([w], lr=0.01, momentum=0.9)
     start_time = time.perf_counter()
@@ -137,11 +159,10 @@ def train_walk(walk_file, w, data_batches, model, num_epochs):
         random.shuffle(indices)
         for i, idx in enumerate(indices):
             opt.zero_grad()
-            x = data_batches[idx][0]
-            x_edit = data_batches[idx][1]
+            x, x_edit = data_batches[idx]
             #print(x_edit[0])
             #print(x_edit_one_hot[0])
-
+        
             # encode the input x
             mu, logvar = model.encode(x)
             z = reparameterize(mu, logvar)
@@ -165,6 +186,8 @@ def train_walk(walk_file, w, data_batches, model, num_epochs):
         print("time", epoch_time)
         print("=" * 60)
 
+        #print(torch.cuda.memory_summary(device=None, abbreviated=False))
+
     print("FINISHED TRAINING")
     print(w)
     torch.save(w, results_dir + walk_file)
@@ -178,19 +201,46 @@ def main(args):
     walk_file = args.walk_file
     init_mode = args.init_mode 
     num_epochs = args.num_epochs
-    
-    # prints
-    print("walk_file: \t", walk_file)
-    print("data files: \t", pres_fn, ",", past_fn)
-    print("init mode: \t", init_mode)
-    print("num epochs: \t", num_epochs)
-    print("-" * 60)
 
+    print("~" * 50)
     model = load_model(checkpoint_dir)
-    data_batches = load_data(pres_fn, past_fn)
-    w = initialize(init_mode)
-    print_inital_loss(init_mode, w, data_batches, model)
-    w_final = train_walk(walk_file, w, data_batches, model, num_epochs)
+    batches = load_data(pres_fn, past_fn)
+
+    meters = evaluate(model, batches)
+    print(' '.join(['{} {:.2f},'.format(k, meter.avg)
+            for k, meter in meters.items()]))
+    print("~" * 50)
+
+    if args.eval:
+        w = initialize(init_mode)
+        torch.save(w, results_dir + "random.pt")
+        model = load_model(checkpoint_dir)
+        w_final = torch.load(results_dir + walk_file, device)
+        print("EVALUATION")
+        valid_pres_file = pres_fn # "test_present.txt" usually
+        valid_past_file = past_fn
+        valid_batches = load_data(valid_pres_file, valid_past_file)
+        average_loss(w_final, valid_batches, model)
+    else: 
+        # prints
+        print("walk_file: \t", walk_file)
+        print("data files: \t", pres_fn, ",", past_fn)
+        print("init mode: \t", init_mode)
+        print("num epochs: \t", num_epochs)
+        print("-" * 60)
+
+        model = load_model(checkpoint_dir)
+        data_batches = load_data(pres_fn, past_fn)
+        w = initialize(init_mode)
+        print("INITIAL LOSS")
+        average_loss(w, data_batches, model)
+        w_final = train_walk(walk_file, w, data_batches, model, num_epochs)
+        # evaluation
+        print("EVALUATION")
+        valid_pres_file = pres_fn # "test_present.txt" usually
+        valid_past_file = past_fn
+        valid_batches = load_data(valid_pres_file, valid_past_file)
+        average_loss(w_final, valid_batches, model)
 
 if __name__ == '__main__':
     args = parser.parse_args()

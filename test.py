@@ -56,6 +56,8 @@ parser.add_argument('--seed', type=int, default=1111, metavar='N',
                     help='random seed')
 parser.add_argument('--no-cuda', action='store_true',
                     help='disable CUDA')
+parser.add_argument('--walk_file', metavar='FILE', default="walk_test.pt",
+                    help='name of walk pt file')
 
 def get_model(path):
     ckpt = torch.load(path)
@@ -114,6 +116,11 @@ if __name__ == '__main__':
     if args.evaluate:
         sents = load_sent(args.data)
         batches, _ = get_batches(sents, vocab, args.batch_size, device)
+
+        # evaluate function loaded from train
+        # print(len(batches))
+        # for b in batches:
+        #     print(b[0].shape, b[1].shape)
         meters = evaluate(model, batches)
         print(' '.join(['{} {:.2f},'.format(k, meter.avg)
             for k, meter in meters.items()]))
@@ -148,14 +155,15 @@ if __name__ == '__main__':
         tw = torch.from_numpy(w)
         torch.save(tw.to(device), "arithmetic.pt")
 
+    # new
     if args.walk:
         fa, fb, fc = args.data.split(',')
         sa, sb, sc = load_sent(fa), load_sent(fb), load_sent(fc)
         za, zb, zc = encode(sa), encode(sb), encode(sc)
-        w = torch.load("walk_lr001")
+        w = torch.load(args.walk_file)
         zd = zc + args.k * w.cpu().detach().numpy()
         sd = decode(zd)
-        write_sent(sd, os.path.join("", args.output + "_walk_zeros"))
+        write_sent(sd, os.path.join("", args.output))
         print(w)
 
     if args.interpolate:

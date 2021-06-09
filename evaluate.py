@@ -34,6 +34,9 @@ def classify_sent(sent):
 pres_path = "parallel_data/present.txt"
 past_path = "parallel_data/past.txt"
 
+# pres_path = "data/yelp/tense/valid.present"
+# past_path = "data/yelp/tense/valid.past"
+
 pres_sents = load_sent_no_split(pres_path)
 past_sents = load_sent_no_split(past_path)
 
@@ -41,6 +44,7 @@ def eval(sents, gt):
     N = len(sents)
     num_tense = 0
     num_none = 0
+    # counter = 0
     for sent in sents:
         tokens = nltk.word_tokenize(sent)
         tagged = nltk.pos_tag(tokens)
@@ -49,19 +53,26 @@ def eval(sents, gt):
             num_tense += 1
         elif tense == "none":
             num_none += 1
+        # elif counter < 5:
+        #     print(tagged)
+        #     counter +=1 
     return num_tense, num_none, N
 
-# outputs_fn = "results_05_31_21/walk_arith_5_output.txt"
-def get_accuracy(outputs_fn):
+def get_baselines():
     num_pres, num_none, N = eval(pres_sents, "present")
     print("present base accuracy:", num_pres/N)
-    # print("past:", N - num_pres - num_none)
-    # print("none:", num_none)
-    # print("total:", N)
+    print("past:", N - num_pres - num_none)
+    print("none:", num_none)
+    print("total:", N)
 
     num_past, num_none, N = eval(past_sents, "past")
     print("past base accuracy:", num_past/N)
+    print("present:", N - num_past - num_none)
+    print("none:", num_none)
+    print("total:", N)
 
+# outputs_fn = "results_05_31_21/walk_arith_5_output.txt"
+def get_accuracy(outputs_fn):
     outputs = load_sent_no_split(outputs_fn)
     num_past, num_none, N = eval(outputs, "past")
     print("output accuracy:", num_past/N)
@@ -119,6 +130,7 @@ def get_ppl(outputs_pred):
 
 ### main ###
 def main(args):
+    # get_baselines()
     get_accuracy(args.outputs)
     outputs_pred = load_sent(args.outputs)
     get_bleu(outputs_pred, args.gt)

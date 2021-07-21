@@ -31,7 +31,7 @@ parser.add_argument('--verbose', type=bool, default=False, metavar='P',
 ##########################################################################
 checkpoint_dir = "checkpoints/yelp/daae3/"
 parallel_data_dir = ""
-results_dir = "results_060621_new_data/"
+results_dir = "results_0720/"
 print_outputs_flag = False 
 
 # parameters
@@ -65,23 +65,6 @@ def get_model(path):
     model.eval()
     return model
 
-def encode(sents):
-    batches, order = get_batches(sents, vocab, batch_size, device)
-    z = []
-    for inputs, _ in batches:
-        mu, logvar = model.encode(inputs)
-        zi = reparameterize(mu, logvar)
-        z.append(zi.detach().cpu().numpy())
-    z = np.concatenate(z, axis=0)
-    z_ = np.zeros_like(z)
-    z_[np.array(order)] = z
-    return z_
-
-def get_arithmetic(pres_data, past_data):
-    za, zb = encode(pres_data), encode(past_data)
-    w = torch.tensor(zb.mean(axis=0) - za.mean(axis=0), requires_grad = True, device=device)
-    return w
-
 def load_model(checkpoint_dir, verbose = False):
     model = get_model(checkpoint_dir + "model.pt")
     if verbose:
@@ -111,7 +94,7 @@ def initialize(init_mode):
     elif init_mode == "zero":
         w = torch.zeros(dim_emb, requires_grad=True, device=device)
     elif init_mode == "arithmetic":
-        w = torch.load("walk_files/arithmetic.pt")
+        w = torch.load("walk_files/arithmetic_v2.pt")
         w = w.to(device)
         w.requires_grad = True
     return w
@@ -141,10 +124,11 @@ def average_loss(w, data_batches, model, verbose = False):
             loss = model.loss_rec(logits, x_edit).mean()
 
             if verbose:
-                # losses = model.autoenc(x, x_edit)
-                # print("autoenc", idx, ":", losses['rec'], "shapes", x.shape, x_edit.shape)
+                losses = model.autoenc(x, x_edit)
+                print("autoenc", idx, ":", losses['rec'], " | shapes", x.shape, x_edit.shape)
                 print("my loss", idx, ":", loss)
-                print("x", x.shape, "| x_edit", x_edit.shape)
+                # print("x", x.shape, "| x_edit", x_edit.shape)
+            if print_outputs_flag:
                 sents = []
                 edited_sents = []
                 walk_sents = []
@@ -160,6 +144,7 @@ def average_loss(w, data_batches, model, verbose = False):
                     edited_sents.append([vocab.idx2word[id] for id in xe_i])
                     output_i = outputs[i]
                     walk_sents.append([vocab.idx2word[id] for id in output_i])
+                    walk_sents = strip_eos(walk_sents)
 
                 for i in range(batch_len):
                     x_i = torch.unsqueeze(x[:,i], dim=1)
@@ -172,40 +157,6 @@ def average_loss(w, data_batches, model, verbose = False):
                     print(x_edit[:,i])
                     print("--WALK:", walk_sents[i])
                     print(outputs[i])
-
-                if print_outputs_flag:
-                    
-                    if idx == 4:
-                        print("batch", idx, "length", x.shape[1])
-                        edited_sents = []
-                        walked_sents = []
-                        sents = []
-
-                        max_len = 35
-                        dec = 'greedy'
-                        outputs = model.generate(new_latent, max_len, dec).t()
-                        print("outputs", outputs.shape)
-                        print("x", x.shape)
-                        print("x_edit", x_edit.shape)
-                        print("z", z.shape)
-
-                        for i in range(batch_len):
-                            output_i = outputs[i]
-                            walked_sents.append([vocab.idx2word[id] for id in output_i])
-                            x_i = x[:,i]
-                            sents.append([vocab.idx2word[id] for id in x_i])
-                            xe_i = x_edit[:,i]
-                            edited_sents.append([vocab.idx2word[id] for id in xe_i])
-
-                        walked_sents = strip_eos(walked_sents)   
-                        edited_sents = strip_eos(edited_sents)
-                        sents = strip_eos(sents)
-
-                        for i in range(batch_len):
-                            print(i)
-                            print("--SENT:", sents[i])
-                            print("--EDIT:", edited_sents[i])
-                            print("--WALK:", walked_sents[i])
 
             total_loss += loss * x.shape[1]
             nsents += x.shape[1]
@@ -232,7 +183,7 @@ def train_walk(walk_file, w, data_batches, valid_batches, model, num_epochs, ver
     # for param in model.parameters():
     #     param.requires_grad = False # freeze the model
     print("START TRAINING:", walk_file)
-    opt = optim.SGD([w], lr=0.01)
+    opt = optim.Adam([w], lr=0.0005)
     # opt = optim.Adam([w], lr=0.01, momentum=0.9)
     start_time = time.perf_counter()
     meter = AverageMeter()
